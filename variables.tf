@@ -1,20 +1,28 @@
 variable "aws_region" {
-  description = "The AWS region to create things in."
-  default     = "us-south-1"
+       description = "The AWS region to create things in." 
+       default     = "ap-south-1" 
 }
 
-
-variable "instance_type" {
-  description = "instance type for ec2"
-  default     =  "t2.micro"
+variable "key_name" { 
+    description = " SSH keys to connect to ec2 instance" 
+    default     =  "mum" 
 }
 
-variable "tag_name" {
-  description = "Tag Name of for Ec2 instance"
-  default     = "my-ec2-instance"
+variable "instance_type" { 
+    description = "instance type for ec2" 
+    default     =  "t2.micro" 
 }
 
-variable "ami_id" {
-  description = "AMI for linux Ec2 instance"
-  default     = "ami-0ff30663ed13c2290 "
+variable "security_group" { 
+    description = "Name of security group" 
+    default     = "All Traffic" 
+}
+
+variable "tag_name" { 
+    description = "Tag Name of for Ec2 instance" 
+    default     = "my-ec2-instance" 
+} 
+variable "ami_id" { 
+    description = "AMI for Ubuntu Ec2 instance" 
+    default     = "ami-0f5ee92e2d63afc18" 
 }
