@@ -1,27 +1,17 @@
-variable "location" {
-    default = "ap-south-1"
+variable "ami" {
+   type        = string
+   description = "Ubuntu AMI ID in N. Virginia Region"
+   default     = "ami-065deacbcaac64cf2"
 }
 
-variable "os_name" {
-    default = "ami-09ba48996007c8b50"
+variable "instance_type" {
+   type        = string
+   description = "Instance type"
+   default     = "t2.micro"
 }
 
-variable "key" {
-    default = "mum"
-}
-
-variable "instance-type" {
-    default = "t2.small"
-}
-
-variable "vpc-cidr" {
-    default = "10.10.0.0/16"  
-}
-
-variable "subnet1-cidr" {
-    default = "10.10.1.0/24"
-  
-}
-variable "subent_az" {
-    default =  "ap-south-1a"  
+variable "name_tag" {
+   type        = string
+   description = "Name of the EC2 instance"
+   default     = "My EC2 Instance"
 }
