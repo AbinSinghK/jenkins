@@ -8,7 +8,7 @@ terraform {
 
  backend "s3" {
    bucket = "abin2001"
-   key    = "mumbai.ppk"
+   key    = "mumbai"
    region = "ap-south-1"
  }
 }
