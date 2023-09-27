@@ -7,8 +7,8 @@ terraform {
  }
 
  backend "s3" {
-   bucket = "tf-tuts-state"
-   key    = "state"
+   bucket = "abin2001"
+   key    = "mumbai.ppk"
    region = "ap-south-1"
  }
 }
