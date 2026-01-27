@@ -43,7 +43,11 @@ pipeline {
             steps {
                 script {
                     timeout(time: 30, unit: 'MINUTES') {
-                        input message: 'Do you want to proceed with Terraform Apply?', ok: 'Yes, Apply'
+                        input(
+                            id: 'ApplyApproval',
+                            message: 'Do you want to proceed with Terraform Apply?',
+                            ok: 'Yes, Apply'
+                        )
                     }
                 }
             }
@@ -61,7 +65,11 @@ pipeline {
             steps {
                 script {
                     timeout(time: 30, unit: 'MINUTES') {
-                        input message: 'Do you want to proceed with Terraform Destroy?', ok: 'Yes, Destroy'
+                        input(
+                            id: 'DestroyApproval',
+                            message: 'Do you want to proceed with Terraform Destroy?',
+                            ok: 'Yes, Destroy'
+                        )
                     }
                 }
             }
