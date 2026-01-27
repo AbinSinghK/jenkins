@@ -17,7 +17,7 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                dir('vpc_peering') {   // 👈 change to your Terraform folder name
+                dir('terraform_expressions') {   // 👈 change to your Terraform folder name
                     sh 'terraform init -input=false'
                 }
             }
@@ -25,7 +25,7 @@ pipeline {
 
         stage('Terraform Validate') {
             steps {
-                dir('vpc_peering') {
+                dir('terraform_expressions') {
                     sh 'terraform validate'
                 }
             }
@@ -33,7 +33,7 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                dir('vpc_peering') {
+                dir('terraform_expressions') {
                     sh 'terraform plan -out=tfplan -input=false'
                 }
             }
@@ -41,23 +41,42 @@ pipeline {
 
         stage('Approval') {
             steps {
-                script {
-                    input message: 'Do you want to proceed with Terraform Apply?', 
-                          ok: 'Yes, Apply', 
-                          timeout: 30, unit: 'MINUTES'
+                script { 
+                    timeout(time: 30, unit: 'MINUTES') { 
+                        input message: 'Do you want to proceed with Terraform Apply?', ok: 'Yes, Apply'
+                    }
                 }
             }
-        }
 
         stage('Terraform Apply') {
             steps {
-                dir('vpc_peering') {
+                dir('terraform_expressions') {
                     sh 'terraform apply -auto-approve tfplan'
                 }
             }
         }
     }
 
+stage('destroy_approval') {
+            steps {
+                script { 
+                    timeout(time: 30, unit: 'MINUTES') { 
+                        input message: 'Do you want to proceed with Terraform destroy?', ok: 'Yes, Apply'
+                    }
+                }
+            }
+
+        stage('Terraform destroy') {
+            steps {
+                dir('terraform_expressions') {
+                    sh 'terraform destroy -auto-approve tfapply'
+                }
+            }
+        }
+    }
+        
+
+        
     post {
         success {
             echo '✅ Infrastructure created successfully in AWS!'
