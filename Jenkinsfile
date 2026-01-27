@@ -2,7 +2,9 @@ pipeline {
     agent any
 
     environment {
-        AWS_DEFAULT_REGION = 'us-east-1'
+        AWS_ACCESS_KEY_ID     = credentials('aws-access-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+        AWS_DEFAULT_REGION    = 'us-east-1'
     }
 
     stages {
@@ -10,16 +12,12 @@ pipeline {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/AbinSinghK/Terraform.git'
-                // Move into the vpc_peering folder
-                dir('vpc_peering') {
-                    echo 'Checked out Terraform code'
-                }
             }
         }
 
         stage('Terraform Init') {
             steps {
-                dir('vpc_peering') {
+                dir('vpc_peering') {   // 👈 change to your Terraform folder name
                     sh 'terraform init -input=false'
                 }
             }
