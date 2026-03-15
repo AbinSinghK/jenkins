@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+
+    environment {
+        GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp-terraform-key')
+    }
+
+    stages {
+
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main', url: 'https://github.com/AbinSinghK/Terraform.git'
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                dir('terraform_gcp') {
+                    sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                dir('terraform_gcp') {
+                    sh 'terraform plan'
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                dir('terraform_gcp') {
+                    sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+
+        stage('Approval Before Destroy') {
+            steps {
+                input message: 'Do you really want to destroy the infrastructure in GCP?', ok: 'Destroy'
+            }
+        }
+
+        stage('Terraform Destroy') {
+            steps {
+                dir('terraform_gcp') {
+                    sh 'terraform destroy -auto-approve'
+                }
+            }
+        }
+
+    }
+}
